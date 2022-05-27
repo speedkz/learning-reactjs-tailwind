@@ -1,8 +1,18 @@
 import Input from "components/ui/Input";
 import { Convension, ConvensionContent } from "types/Convension";
 import { Paperclip } from "react-feather";
+import { io } from "socket.io-client";
 
 const CONVENSIONS: Convension = require("static/convension.json");
+
+const socket = io("http://localhost:3000");
+socket.on("connect", () => {
+  console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+});
+
+socket.on("events", (arg1) => {
+  console.log(arg1); // 1
+});
 
 const ChatConvensionMessages = () => {
   const { content } = CONVENSIONS;
@@ -13,6 +23,10 @@ const ChatConvensionMessages = () => {
   };
   const isLeftMessage = (content: ConvensionContent) => {
     return content.from === "1";
+  };
+
+  const onSubmit = (value: string) => {
+    socket.emit("events", value);
   };
 
   return (
@@ -63,6 +77,7 @@ const ChatConvensionMessages = () => {
           placeholder="Type a message"
           appendIcon="Send"
           size={20}
+          onSubmit={onSubmit}
         />
       </div>
     </div>

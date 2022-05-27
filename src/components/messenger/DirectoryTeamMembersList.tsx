@@ -8,8 +8,8 @@ const DirectoryTeamMembersList = () => {
     <div className="w-full px-4 py-6 border-b">
       <div className="text-sm font-bold">Team Members</div>
       {USERS.map((user, i) => (
-        <div className="mb-2 last:mb-0">
-          <DirectoryTeamMember key={i} user={user} />
+        <div key={i} className="mb-2 last:mb-0">
+          <DirectoryTeamMember user={user} />
         </div>
       ))}
     </div>

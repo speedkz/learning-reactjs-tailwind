@@ -8,6 +8,7 @@ interface InputProps {
   appendIcon?: string;
   size?: number;
   bg?: string;
+  onSubmit?: (value: string) => void;
 }
 
 const Input = ({
@@ -17,9 +18,13 @@ const Input = ({
   appendIcon,
   size = 16,
   bg = "bg-gray-100",
+  onSubmit,
 }: InputProps) => {
   const PrependIconComponent = prependIcon ? Icon[prependIcon] : Fragment;
   const AppendIconComponent = appendIcon ? Icon[appendIcon] : Fragment;
+  const handleKeyDown = (e) => {
+    if (e.code === "Enter" && onSubmit) onSubmit(e.target.value);
+  };
   return (
     <div className={"relative block " + className}>
       {prependIcon && (
@@ -28,6 +33,7 @@ const Input = ({
         </div>
       )}
       <input
+        onKeyDown={(e) => handleKeyDown(e)}
         className={
           "px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-sm text-slate-500 w-full" +
           (!!prependIcon ? " pl-10" : "") +
